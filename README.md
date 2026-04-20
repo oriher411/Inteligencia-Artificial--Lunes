@@ -1,11 +1,4 @@
 # Warrior Fight Game
-
-## Entregables de la Entrega 1
-
-* **Link del git del proyecto completo de Unity:** [Agregar link a tu repositorio aquí]
-
----
-
 ## Información del Juego
 
 * **Nombre del juego:** Warrior Fight Game
