@@ -1,4 +1,4 @@
-# Warrior Fight Game
+# Warrior Fight Game - Oriana Herrera
 ## Información del Juego
 
 * **Nombre del juego:** Warrior Fight Game
