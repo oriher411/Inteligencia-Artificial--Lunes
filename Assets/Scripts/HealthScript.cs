@@ -12,8 +12,11 @@ public class HealthScript : MonoBehaviour {
     private float death_Smooth = 0.9f;
     private float rotate_Time = 0.23f;
     private bool playerDied;
+    private bool isDead;
 
     public bool isPlayer;
+
+    public bool countsForVictory = true;
 
     [SerializeField]
     private Image health_UI;
@@ -25,6 +28,13 @@ public class HealthScript : MonoBehaviour {
 
     void Awake() {
         soundFX = GetComponentInChildren<CharacterSoundFX>();
+
+        if (!isPlayer && health_UI == null) {
+            GameObject enemyHealthDisplay = GameObject.Find("Enemy Health Display");
+            if (enemyHealthDisplay != null) {
+                health_UI = enemyHealthDisplay.GetComponent<Image>();
+            }
+        }
     }
 
     void Update() {
@@ -47,9 +57,13 @@ public class HealthScript : MonoBehaviour {
             health_UI.fillAmount = health / 100f;
         }
 
-        if(health <= 0) {
+        if(health <= 0 && !isDead) {
 
-            soundFX.Die();
+            isDead = true;
+
+            if (soundFX != null) {
+                soundFX.Die();
+            }
 
             GetComponent<Animator>().enabled = false;
 
@@ -60,20 +74,20 @@ public class HealthScript : MonoBehaviour {
                 GetComponent<PlayerMove>().enabled = false;
                 GetComponent<PlayerAttackInput>().enabled = false;
 
-                // the player is not the parent game object
-                // for the camera anymore
                 Camera.main.transform.SetParent(null);
 
-                GameObject.FindGameObjectWithTag(Tags.ENEMY_TAG)
-                          .GetComponent<EnemyController>().enabled = false;
+                EnemyAIHelper.DisableAllEnemyAI();
 
             } else {
 
-                GetComponent<EnemyController>().enabled = false;
-                GetComponent<NavMeshAgent>().enabled = false;
+                EnemyAIHelper.DisableAIOnGameObject(gameObject);
+
+                GameManager gameManager = Object.FindFirstObjectByType<GameManager>();
+                if (gameManager != null) {
+                    gameManager.RegisterEnemyDefeated();
+                }
 
             }
-
 
         }
 

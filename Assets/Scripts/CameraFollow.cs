@@ -12,7 +12,7 @@ public class CameraFollow : MonoBehaviour {
 	void Awake () {
         // En lugar de buscar por Tag (que puede confundirse con enemigos mal tageados),
         // buscamos específicamente el componente del jugador (Warrior).
-        PlayerMove playerScript = FindObjectOfType<PlayerMove>();
+        PlayerMove playerScript = Object.FindFirstObjectByType<PlayerMove>();
         
         if(playerScript != null) {
             target = playerScript.transform;

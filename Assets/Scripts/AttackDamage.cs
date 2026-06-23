@@ -12,12 +12,13 @@ public class AttackDamage : MonoBehaviour {
 
         Collider[] hits = Physics.OverlapSphere(transform.position, radius, layer);
 
-        if(hits.Length > 0) {
+        if (hits.Length > 0) {
+            HealthScript health = hits[0].GetComponent<HealthScript>();
 
-            hits[0].GetComponent<HealthScript>().ApplyDamage(damage);
-
-            gameObject.SetActive(false);
-
+            if (health != null) {
+                health.ApplyDamage(damage);
+                gameObject.SetActive(false);
+            }
         }
 
 	}
